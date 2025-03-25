@@ -32,7 +32,9 @@ function CheckEmailPage() {
         setData({
           email: "",
         });
-        navigate("/password");
+        navigate("/password", {
+          state: response?.data?.data,
+        });
       }
     } catch (error) {
       toast.error(error?.response?.data?.message);
@@ -68,7 +70,7 @@ function CheckEmailPage() {
         </form>
         <p className="my-3 text-center">
           New User ?
-          <Link to={"email"} className="hover:text-primary font-semibold">
+          <Link to={"/register"} className="hover:text-primary font-semibold">
             Register
           </Link>{" "}
         </p>
