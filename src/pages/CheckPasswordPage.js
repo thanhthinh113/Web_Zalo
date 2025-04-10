@@ -3,6 +3,8 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { Avatar } from "../components/Avatar";
+import { useDispatch } from "react-redux";
+import { setToken } from "../redux/userSlice";
 
 function CheckPasswordPage() {
   const [data, setData] = useState({
@@ -10,11 +12,11 @@ function CheckPasswordPage() {
   });
   const navigate = useNavigate();
   const location = useLocation();
-  //console.log("location", location.state);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (!location?.state?.name || !location?.state?._id) {
-      navigate("/email");
+      navigate("/phone");
     }
   }, [location, navigate]);
 
@@ -32,21 +34,23 @@ function CheckPasswordPage() {
     e.preventDefault();
     e.stopPropagation();
 
-    const requestData = {
-      password: data.password,
-      userId: location?.state?._id, // Lấy userId từ state
-    };
-
+    const URL = `${process.env.REACT_APP_BACKEND}/api/password`;
     try {
-      const response = await axios.post(
-        `${process.env.REACT_APP_BACKEND}/api/password`,
-        requestData
-      );
+      const response = await axios({
+        method: "post",
+        url: URL,
+        data: {
+          userId: location?.state?._id,
+          password: data.password,
+        },
+        withCredentials: true,
+      });
 
-      console.log("response", response);
       toast.success(response.data.message);
 
       if (response.data.success) {
+        dispatch(setToken(response?.data?.token));
+        localStorage.setItem("token", response?.data?.token);
         setData({ password: "" });
         navigate("/");
       }
@@ -56,11 +60,33 @@ function CheckPasswordPage() {
     }
   };
 
+  const handleForgotPassword = async () => {
+    const phone = location?.state?.phone;
+
+    if (!phone) {
+      toast.error("Phone number is missing. Please try again.");
+      return;
+    }
+
+    const URL = `${process.env.REACT_APP_BACKEND}/api/phone`;
+    try {
+      const response = await axios.post(URL, { phone });
+      toast.success("Check your phone for the reset link!");
+
+      if (response.data.success) {
+        navigate("/reset-password", {
+          state: { token: response.data.token },
+        });
+      }
+    } catch (error) {
+      toast.error(error?.response?.data?.message || "Something went wrong");
+    }
+  };
+
   return (
     <div className="mt-5">
       <div className="bg-white w-full max-w-md rounded overflow-hidden p-4 mx-auto">
         <div className="w-fit mx-auto mb-2 flex justify-center items-center flex-col">
-          {/* <TbUserCircle size={80} /> */}
           <Avatar
             width={70}
             height={70}
@@ -92,12 +118,13 @@ function CheckPasswordPage() {
           </button>
         </form>
         <p className="my-3 text-center">
-          <Link
-            to={"/forgot-password"}
-            className="hover:text-primary font-semibold"
+          <button
+            type="button"
+            onClick={handleForgotPassword}
+            className="hover:text-primary font-semibold underline mx-auto mt-2"
           >
             Forgot password ?
-          </Link>
+          </button>
         </p>
       </div>
     </div>

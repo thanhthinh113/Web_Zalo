@@ -44,3 +44,5 @@ export const Avatar = ({ userId, name, imageUrl, width = 50, height = 50 }) => {
     </div>
   );
 };
+
+export default Avatar;

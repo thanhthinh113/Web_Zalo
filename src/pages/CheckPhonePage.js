@@ -4,9 +4,9 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { TbUserCircle } from "react-icons/tb";
 
-function CheckEmailPage() {
+function CheckPhonePage() {
   const [data, setData] = useState({
-    email: "",
+    phone: "",
   });
   const navigate = useNavigate();
 
@@ -23,14 +23,14 @@ function CheckEmailPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     e.stopPropagation();
-    const URL = `${process.env.REACT_APP_BACKEND}/api/email`;
+    const URL = `${process.env.REACT_APP_BACKEND}/api/phone`;
     try {
       const response = await axios.post(URL, data);
       console.log("response", response);
       toast.success(response.data.message);
       if (response.data.success) {
         setData({
-          email: "",
+          phone: "",
         });
         navigate("/password", {
           state: response?.data?.data,
@@ -42,6 +42,7 @@ function CheckEmailPage() {
     }
     console.log(data);
   };
+
   return (
     <div className="mt-5">
       <div className="bg-white w-full max-w-md rounded overflow-hidden p-4 mx-auto">
@@ -51,14 +52,14 @@ function CheckEmailPage() {
         <h3>Welcome to Chat app!</h3>
         <form className="grid gap-4 mt-3" onSubmit={handleSubmit}>
           <div className="flex flex-col gap-1">
-            <label htmlFor="email">Email :</label>
+            <label htmlFor="phone">Phone Number :</label>
             <input
               type="text"
-              id="email"
-              name="email"
-              placeholder="Enter your email"
+              id="phone"
+              name="phone"
+              placeholder="Enter your phone number"
               className="bg-slate-100 px-2 py-1 focus:outline-primary"
-              value={data.email}
+              value={data.phone}
               onChange={handleOnChange}
               required
             />
@@ -79,4 +80,4 @@ function CheckEmailPage() {
   );
 }
 
-export default CheckEmailPage;
+export default CheckPhonePage;
