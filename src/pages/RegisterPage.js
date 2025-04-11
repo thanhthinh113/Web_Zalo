@@ -105,128 +105,123 @@ function RegisterPage() {
 
   return (
     <div className="mt-5">
-      <div className="bg-white w-full max-w-md rounded overflow-hidden p-4 mx-auto">
-        <h3>Welcome to Chat app!</h3>
-        <form className="grid gap-4 mt-5" onSubmit={(e) => e.preventDefault()}>
+      <div className="bg-white max-w-md mx-auto rounded p-4">
+        <h3 className="text-center text-xl font-bold mb-4">Register</h3>
+
+        <form className="grid gap-4" onSubmit={(e) => e.preventDefault()}>
           {!isPhoneVerified && (
             <>
-              <div className="flex flex-col gap-1">
-                <label htmlFor="phone">Phone :</label>
+              <label>
+                Phone:
                 <input
                   type="text"
-                  id="phone"
                   name="phone"
                   placeholder="Enter your phone"
-                  className="bg-slate-100 px-2 py-1 focus:outline-primary"
+                  className="w-full px-3 py-2 border rounded focus:outline-blue-500 bg-gray-100"
                   value={data.phone}
                   onChange={handleOnChange}
                   required
                 />
-                <button
-                  type="button"
-                  onClick={handleSendOTP}
-                  className="bg-green-600 px-3 py-1 rounded text-white"
-                >
-                  Send OTP
-                </button>
-              </div>
+              </label>
+              <button
+                type="button"
+                onClick={handleSendOTP}
+                className="bg-blue-600 text-white rounded py-2"
+              >
+                Send OTP
+              </button>
 
               {otpSent && (
-                <div className="flex flex-col gap-1">
-                  <label>Enter OTP :</label>
-                  <input
-                    type="text"
-                    placeholder="Enter OTP"
-                    value={otp}
-                    onChange={(e) => setOtp(e.target.value)}
-                    className="bg-slate-100 px-2 py-1 focus:outline-primary"
-                  />
+                <>
+                  <label>
+                    Enter OTP:
+                    <input
+                      type="text"
+                      placeholder="Enter OTP"
+                      className="w-full px-3 py-2 border rounded focus:outline-blue-500 bg-gray-100"
+                      value={otp}
+                      onChange={(e) => setOtp(e.target.value)}
+                      required
+                    />
+                  </label>
                   <button
                     type="button"
                     onClick={handleVerifyOTP}
-                    className="bg-green-600 px-3 py-1 rounded text-white"
+                    className="bg-blue-600 text-white rounded py-2"
                   >
                     Verify OTP
                   </button>
-                </div>
+                </>
               )}
             </>
           )}
 
           {isPhoneVerified && (
             <>
-              <div className="flex flex-col gap-1">
-                <label htmlFor="name">Name :</label>
+              <label>
+                Name:
                 <input
                   type="text"
-                  id="name"
                   name="name"
                   placeholder="Enter your name"
-                  className="bg-slate-100 px-2 py-1 focus:outline-primary"
+                  className="w-full px-3 py-2 border rounded focus:outline-blue-500 bg-gray-100"
                   value={data.name}
                   onChange={handleOnChange}
                   required
                 />
-              </div>
+              </label>
 
-              <div className="flex flex-col gap-1">
-                <label htmlFor="password">Password :</label>
+              <label>
+                Password:
                 <input
                   type="password"
-                  id="password"
                   name="password"
                   placeholder="Enter your password"
-                  className="bg-slate-100 px-2 py-1 focus:outline-primary"
+                  className="w-full px-3 py-2 border rounded focus:outline-blue-500 bg-gray-100"
                   value={data.password}
                   onChange={handleOnChange}
                   required
                 />
-              </div>
+              </label>
 
-              <div className="flex flex-col gap-1">
-                <label htmlFor="profile_pic">
-                  Photo :
-                  <div className="h-14 bg-slate-200 flex justify-center items-center border hover:border-primary cursor-pointer">
-                    <p className="text-sm max-w-[300] flex text-ellipsis line-clamp-1">
-                      {uploadPhoto?.name
-                        ? uploadPhoto?.name
-                        : "Upload profile photo"}
-                      {uploadPhoto?.name && (
-                        <button
-                          className="text-lg ml-2 hover:text-red-600"
-                          onClick={handleClearUploadPhoto}
-                        >
-                          <IoClose />
-                        </button>
-                      )}
-                    </p>
-                  </div>
-                </label>
+              <label>
+                Photo:
+                <div className="w-full h-14 px-3 py-2 bg-gray-200 border rounded flex items-center justify-between cursor-pointer hover:border-blue-500">
+                  <span className="truncate">
+                    {uploadPhoto?.name || "Upload profile photo"}
+                  </span>
+                  {uploadPhoto?.name && (
+                    <button
+                      className="text-xl hover:text-red-600"
+                      onClick={handleClearUploadPhoto}
+                    >
+                      <IoClose />
+                    </button>
+                  )}
+                </div>
                 <input
                   type="file"
                   id="profile_pic"
                   name="profile_pic"
-                  className="bg-slate-100 px-2 py-1 focus:outline-primary hidden"
+                  className="hidden"
                   onChange={handleUploadPhoto}
                 />
-              </div>
+              </label>
 
               <button
                 type="button"
                 onClick={handleSubmit}
-                className="bg-blue-600 px-3 py-2 text-white rounded"
+                className="bg-blue-600 text-white rounded py-2"
               >
                 Register
               </button>
             </>
           )}
         </form>
-        <p className="my-3 text-center">
+
+        <p className="text-center mt-4">
           Already have an account?{" "}
-          <Link
-            onClick={() => navigate("/login")}
-            className="hover:text-primary font-semibold"
-          >
+          <Link to="/login" className="text-blue-500 hover:underline">
             Login
           </Link>
         </p>

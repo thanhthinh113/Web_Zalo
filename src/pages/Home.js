@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { logout, setUser } from "../redux/userSlice";
 import { Sidebar } from "../components/Sidebar";
-import logo from "../assets/logo.png";
 
 function Home() {
   const user = useSelector((state) => state.user);
@@ -52,12 +51,7 @@ function Home() {
       </section>
 
       <div className="lg:flex justify-center items-center flex-col gap-2 hidden">
-        <div>
-          <img src={logo} width={250} alt="logo" />
-        </div>
-        <p className="text-lg mt-2 text-slate-500">
-          Select user to send message
-        </p>
+        <h1 className="text-2xl font-bold text-slate-500">Zalo App</h1>
       </div>
     </div>
   );
