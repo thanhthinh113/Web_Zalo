@@ -91,7 +91,10 @@ const Login = () => {
         </div>
 
         {/* Forgot Password */}
-        <p className="text-blue-500 text-xs text-right mb-4 cursor-pointer hover:underline">
+        <p
+          onClick={() => navigate("/forgot-password")}
+          className="text-blue-500 text-xs text-right mb-4 cursor-pointer hover:underline"
+        >
           Quên mật khẩu
         </p>
 
