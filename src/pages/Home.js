@@ -50,7 +50,11 @@ function Home() {
         <Outlet />
       </section>
 
-      <div className="lg:flex justify-center items-center flex-col gap-2 hidden">
+      <div
+        className={`justify-center items-center flex-col gap-2 hidden ${
+          !basePath ? "hidden" : "lg:flex"
+        }`}
+      >
         <h1 className="text-2xl font-bold text-slate-500">Zalo App</h1>
       </div>
     </div>

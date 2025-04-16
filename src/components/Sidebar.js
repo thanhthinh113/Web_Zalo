@@ -7,11 +7,15 @@ import Avatar from "./Avatar";
 import { useDispatch, useSelector } from "react-redux";
 import EditUserDetails from "./EditUserDetails";
 import { logout } from "../redux/userSlice";
+import { FiArrowUpLeft } from "react-icons/fi";
+import { SearchUser } from "./SearchUser";
 
 export const Sidebar = () => {
   const user = useSelector((state) => state?.user);
   const [editUserOpen, setEditUserOpen] = useState(false);
   const [allUser, setAllUser] = useState([]);
+  const [openSearchUser, setOpenSearchUser] = useState(false);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -37,6 +41,7 @@ export const Sidebar = () => {
           </NavLink>
           <div
             title="add friend"
+            onClick={() => setOpenSearchUser(true)}
             className="w-12 h-12 flex justify-center items-center cursor-pointer hover:bg-slate-200"
           >
             <FaUserPlus size={20} />
@@ -75,8 +80,10 @@ export const Sidebar = () => {
         <div className="bg-slate-200 p-[0.5px]"></div>
         <div className="h-[calc(100vh-65px)] overflow-x-hidden overflow-y-auto scrollbar">
           {allUser.length === 0 && (
-            <div>
-              <div></div>
+            <div className="mt-12">
+              <div className="flex justify-center items-center my-4 text-slate-500">
+                <FiArrowUpLeft size={50} />
+              </div>
               <p className="text-lg text-center text-slate-400">
                 Explore user to start a conversation with.
               </p>
@@ -88,6 +95,10 @@ export const Sidebar = () => {
       {/** edit user details */}
       {editUserOpen && (
         <EditUserDetails onClose={() => setEditUserOpen(false)} user={user} />
+      )}
+      {/**search user */}
+      {openSearchUser && (
+        <SearchUser onClose={() => setOpenSearchUser(false)} />
       )}
     </div>
   );
