@@ -9,7 +9,7 @@ import { setUser } from "../redux/userSlice";
 
 const EditUserDetails = ({ onClose, user }) => {
   const [data, setData] = useState({
-    name: user?.user,
+    name: user?.name,
     profile_pic: user?.profile_pic,
   });
   const uploadPhotoRef = useRef();
@@ -21,7 +21,12 @@ const EditUserDetails = ({ onClose, user }) => {
         ...prev,
         ...user,
       }));
-      localStorage.setItem("edit-user-data", JSON.stringify(user));
+      try {
+        const cloneUser = JSON.parse(JSON.stringify(user));
+        localStorage.setItem("edit-user-data", JSON.stringify(cloneUser));
+      } catch (err) {
+        console.warn("Unable to stringify user for localStorage:", err);
+      }
     }
   }, [user]);
 
